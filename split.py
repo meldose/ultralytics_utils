@@ -1,10 +1,11 @@
-import argparse
-import shutil
-import random
-from pathlib import Path
-import yaml
+import argparse  # imported argparse module 
+import shutil # imported shutil module 
+import random # imported random  module 
+from pathlib import Path # imported Path module 
+import yaml # imported yaml module 
 
 
+# function for spliting the dataset
 def split_dataset(
     dataset_path: Path,
     train_ratio: float = 0.7,
@@ -31,6 +32,7 @@ def split_dataset(
     valid_files = image_files[num_train:num_train + num_valid]
     test_files = image_files[num_train + num_valid:]
 
+# function for copying the files
     def copy_files(files, split):
         split_dir = dataset_path / split
         if split_dir.exists():
@@ -125,7 +127,7 @@ def split_dataset(
 
     print("Done!")
 
-
+# calling the main function 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Split dataset into train/valid/test sets"

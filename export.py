@@ -1,11 +1,11 @@
-from ultralytics_utils import get_export_parser, YOLO
+from ultralytics_utils import get_export_parser, YOLO # importing the YOLO
 
-
+#calling the main function 
 if __name__ == "__main__":
     parser = get_export_parser()
     args = parser.parse_args()
 
-    yolo = YOLO(model=args.weights, verbose=True)
+    yolo = YOLO(model=args.weights, verbose=True) # setting up the yolo
 
     if args.weights:
         yolo.load(args.weights)

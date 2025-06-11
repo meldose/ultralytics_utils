@@ -1,6 +1,7 @@
 from ultralytics_utils import get_default_parser, YOLO
 
 
+# calling up the main function 
 if __name__ == "__main__":
     parser = get_default_parser()
     args = parser.parse_args()

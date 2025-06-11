@@ -1,18 +1,18 @@
-import argparse
-import multiprocessing as mp
-from pathlib import Path
-import random
-import string
-from typing import List
+import argparse  # importing argparse moudule 
+import multiprocessing as mp # importing multiprocessing moudule 
+from pathlib import Path # importing Path moudule 
+import random # importing random moudule 
+import string # importing string moudule 
+from typing import List # importing List moudule 
 
-import cv2
-import numpy as np
-from random_words import RandomWords
-from shapely.geometry import Polygon
-import treepoem
-from tqdm import tqdm
-from wordcloud import WordCloud
-import yaml
+import cv2  # importing cv2 module 
+import numpy as np # importing  numpy module 
+from random_words import RandomWords # importing RandomWords module 
+from shapely.geometry import Polygon # importing geometry module 
+import treepoem # importing treepoem module 
+from tqdm import tqdm # importing tdm module 
+from wordcloud import WordCloud # importing WordCloud module 
+import yaml # importing yaml module 
 
 # Configuration
 BARCODE_TYPES = {
@@ -64,7 +64,7 @@ BARCODE_TYPES = {
     },
 }
 
-
+# function for calculating the box 
 def calculate_obb_iou(box1: List[float], box2: List[float]) -> float:
     """
     Calculate IoU between two oriented bounding boxes
@@ -93,7 +93,7 @@ def calculate_obb_iou(box1: List[float], box2: List[float]) -> float:
 
     return float(iou)
 
-
+# function for calculating the barcode size 
 def calculate_barcode_size(
         height: int,
         width: int,
@@ -120,7 +120,7 @@ def calculate_barcode_size(
 
     return np.clip(base_dim, min_dim, max_dim)
 
-
+# function for creating the barcode 
 def create_barcode(target_size, code_type: str = "random"):
     """Create a barcode with dynamic sizing"""
     if code_type == "random":
@@ -162,7 +162,7 @@ def create_barcode(target_size, code_type: str = "random"):
 
     return barcode, class_id
 
-
+# function for generating the random exit 
 def generate_random_text():
     rw = RandomWords()
     # Reduce number of words significantly
@@ -171,7 +171,7 @@ def generate_random_text():
 
     return ' '.join(words + numbers)
 
-
+# function for roatating the image 
 def rotate_image(
     image: np.ndarray,
     angle: float,
@@ -227,7 +227,7 @@ def rotate_image(
 
     return rotated_image, rotated_mask, rotated_corners
 
-
+# function for generating the random placement 
 def generate_random_placement(
     width: int,
     height: int,
@@ -241,6 +241,7 @@ def generate_random_placement(
     return x, y
 
 
+# function for generating the single image 
 def generate_single_image(
     height: int=640,
     width: int=640,
@@ -327,7 +328,7 @@ def generate_single_image(
 
     return background, bboxes
 
-
+# function for generating the sample 
 def generate_sample(task: tuple[int, Path]):
     idx, output_dir = task
 
@@ -346,7 +347,7 @@ def generate_sample(task: tuple[int, Path]):
         for bbox in bboxes:
             f.write(' '.join(map(str, bbox)) + '\n')
 
-
+#  main function 
 def main(output_dir: Path, num_samples: int, num_processes: int = 1):
     output_dir.mkdir(parents=True, exist_ok=True)
     (output_dir / "images").mkdir(parents=True, exist_ok=True)
@@ -372,7 +373,7 @@ def main(output_dir: Path, num_samples: int, num_processes: int = 1):
 
     print(f"Generated {num_samples} samples in YOLO format")
 
-
+# calling the main function
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--output-dir', "-o", type=Path, default="./dataset")

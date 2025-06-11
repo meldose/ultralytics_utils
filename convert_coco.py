@@ -1,17 +1,18 @@
-import argparse
-from collections import defaultdict
-import json
-from pathlib import Path
-import shutil
-from typing import Any, Dict, List, Optional, Union
+import argparse # imported argparse module
+from collections import defaultdict # imported defaultdict module
+import json # imported json module
+from pathlib import Path # imported Path module
+import shutil # imported shutil module
+from typing import Any, Dict, List, Optional, Union # imported List Dict Optional module
 
-import cv2
-import numpy as np
+import cv2 # imported cv2 module
+import numpy as np # imported numpy module
 
 from ultralytics.utils import LOGGER, TQDM, yaml_load, yaml_save
 from ultralytics.data.converter import merge_multi_segment
 
 
+# function for setting up the director 
 def setup_dir(output_dir: Path, overwrite: bool) -> tuple[Path, int]:
     # increment if save directory already exists
     if output_dir.exists() and overwrite:
@@ -25,7 +26,7 @@ def setup_dir(output_dir: Path, overwrite: bool) -> tuple[Path, int]:
 
     return output_dir, num_files
 
-
+# function for masking to polygons
 def mask_to_polygons(mask: np.ndarray) -> list:
     # Find contours in the binary mask
     contours, _ = cv2.findContours(
@@ -44,7 +45,7 @@ def mask_to_polygons(mask: np.ndarray) -> list:
 
     return polygons
 
-
+# function for rle to polygons
 def rle_to_polygons(
     segm: Dict[str, Any], height: int, width: int
 ) -> List[List[int]]:
@@ -62,7 +63,7 @@ def rle_to_polygons(
 
     return mask_to_polygons(binary_mask)
 
-
+# function for getting the class names 
 def get_class_names(
     input_dir: Path, coco_annotations_file: Union[Path, None] = None
 ) -> List[str]:
@@ -95,7 +96,7 @@ def get_class_names(
 
     return class_names
 
-
+# function for crearting segment 
 def create_segment(segm: Dict[str, Any], height: int, width: int) -> List[int]:
     if isinstance(segm, dict):
         segm = rle_to_polygons(segm, height, width)
@@ -115,7 +116,7 @@ def create_segment(segm: Dict[str, Any], height: int, width: int) -> List[int]:
 
     return s
 
-
+# function for creating keypoints 
 def create_keypoints(
     keypoints: List[int], height: int, width: int
 ) -> List[int]:
@@ -125,6 +126,7 @@ def create_keypoints(
     return keypoints / size.reshape(-1).tolist()
 
 
+# function for convert coco json file 
 def convert_coco(
     input_dir: Path,
     output_dir: Path,
@@ -286,7 +288,7 @@ def convert_coco(
 
     LOGGER.info(f"Save dataset to '{output_dir.resolve()}'\n")
 
-
+# defining the main function 
 def main(
     input_dir: Path,
     output_dir: Optional[Path] = None,
@@ -380,7 +382,7 @@ def main(
     LOGGER.info(f"Save YOLO config for test split to '{yaml_path}'")
     yaml_save(yaml_path, yaml_data)
 
-
+# calling the main function 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 

@@ -6,7 +6,7 @@ from ultralytics_utils import (
     YOLO
 )
 
-
+# calling the main function 
 if __name__ == "__main__":
     parser = get_custom_parser()
     args = parser.parse_args()

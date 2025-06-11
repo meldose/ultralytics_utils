@@ -1,11 +1,11 @@
-import argparse
-import os
-from collections import defaultdict
-from pathlib import Path
-from PIL import Image, ImageOps
-from typing import Dict, List, Optional
+import argparse  # imported argpasemodule
+import os # imported os module
+from collections import defaultdict # imported defaultdict module
+from pathlib import Path # imported Path module
+from PIL import Image, ImageOps # imported Image, Image Opsmodule
+from typing import Dict, List, Optional # imported  Dict, List , Optional module
 
-import numpy as np
+import numpy as np # imported numpy module
 
 from ultralytics.data.augment import Format
 from ultralytics.data.utils import (
@@ -17,6 +17,7 @@ from ultralytics.data.utils import (
     FORMATS_HELP_MSG,
     img2label_paths,
 )
+
 from ultralytics.utils import LOGGER, emojis
 from ultralytics.utils.instance import Instances
 from ultralytics.utils.ops import segments2boxes, resample_segments
@@ -24,6 +25,7 @@ from ultralytics.utils.ops import segments2boxes, resample_segments
 from ultralytics_utils.utils.plotting import plot_images
 
 
+# function ofr visualization parser
 def get_visualization_parser():
     parser = argparse.ArgumentParser(description="Visualize image with labels")
     parser.add_argument(
@@ -74,7 +76,7 @@ def get_visualization_parser():
 
     return parser
 
-
+# function for selecting the classes 
 def select_classes(
     names: Dict[int, str],
     class_names: Optional[List[str]],
@@ -101,7 +103,7 @@ def select_classes(
 
     return names
 
-
+#  function for verifying the image 
 def _verify_image(image_file: Path):
     # Verify images
     image = Image.open(image_file)
@@ -134,7 +136,7 @@ def _verify_image(image_file: Path):
 
     return Image.open(image_file)
 
-
+# function for verifying the label
 def _verify_label(
     label_file: Path,
     use_segments: bool,
@@ -225,7 +227,7 @@ def _verify_label(
 
     return cls, bboxes, segments, keypoints
 
-
+# function for getting the labels 
 def _get_labels(
     image_file: Path,
     label_file: Path,
@@ -282,6 +284,7 @@ def _get_labels(
     )(labels)
 
 
+# function for plotting the single image 
 def plot_single_image(
     image_file: Path,
     label_file: Path,
@@ -382,7 +385,7 @@ def plot_single_image(
         LOGGER.error(f"Error plotting image: {e}")
         return
 
-
+# calling up the main function 
 if __name__ == "__main__":
     parser = get_visualization_parser()
     args = parser.parse_args()

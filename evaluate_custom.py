@@ -1,6 +1,7 @@
-from ultralytics_utils import get_custom_parser, get_kwargs, YOLO
+from ultralytics_utils import get_custom_parser, get_kwargs, YOLO # importing get_custom parser , get_kwargs and YOLO 
 
 
+# calling the main function 
 if __name__ == "__main__":
     parser = get_custom_parser()
     args = parser.parse_args()
